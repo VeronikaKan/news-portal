@@ -1,0 +1,68 @@
+.home{
+    max-width: 80%;
+}
+.breaking{
+    padding: 100px 0;
+
+}
+.breaking__wrapper{
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid black;
+    padding: 30px;
+}
+.breaking__img{
+  height: 400px;
+
+}
+.breaking__img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+}
+.breaking__title{
+    position: absolute;
+    top: 450px;
+    left: 450px;
+    color: white;
+    border: 1px solid white;
+    background-color: black;
+    border-radius: 10px 20px;
+    padding: 60px;
+}
+.latest__wrapper{
+    display: flex;
+    justify-content: space-between;
+}
+.latest__img{
+    position: relative;
+    width: 600px;
+    height: 300px;
+}
+.latest__img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.latest__title{
+    position: absolute;
+    top: 20px;
+    left: 30px;
+}
+.inWorld__wrapper{
+    display: flex;
+    justify-content: space-between;
+}
+.home__title{
+    text-align: center;
+    font-size: 40px;
+}
+.sport__wrapper{
+    display: flex;
+    justify-content: space-between;
+}
+.economics__wrapper{
+    display: flex;
+    justify-content: space-between;
+}
