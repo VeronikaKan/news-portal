@@ -1,5 +1,5 @@
 .sidebar{
-    position: fixed;
+    position: sticky;
     top: 0;
     left: 0;
     padding: 80px 20px;
@@ -46,10 +46,14 @@
     transform: translate(-50%,-50%);
     font-size: 24px;
 }
+.sidebar__subtitle{
+    font-size: 20px;
+}
 .sidebar__list{
     padding: 0 60px;
+
 }
 .sidebar__lists{
     margin-bottom: 10px;
-    font-size: 18px;
+    font-size: 20px;
 }

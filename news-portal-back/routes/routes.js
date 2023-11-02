@@ -16,18 +16,19 @@ const {
   getOneNews,
   getLikesCount,
   getViewsCount,
+  getAllNewsByCategory,
 } = require("../controllers_news/getNews");
 const { addLike, getUsersId } = require("../controllers_news/likes");
 
 const { createUser } = require("../controllers_users/createUser");
 const { getOneUser, getAllUsers } = require("../controllers_users/getUser");
 const { loginUser } = require("../webTokenAuth/authorization");
-const { forgetPassword } = require('../webTokenAuth/resetPassword')
+const { forgetPassword } = require('../webTokenAuth/resetPassword');
+const { getAllCategories } = require("../controllers_categories/getCategory");
 
-
-const fs = require("fs");
-
+router.get("/categories", timeMiddleware, getAllCategories);
 router.get("/news", timeMiddleware, getAllNews);
+router.get("/news-by-category_id/:id", timeMiddleware, getAllNewsByCategory);
 router.delete("/news/:id", timeMiddleware, auth, dropOneNews);
 router.delete("/news", timeMiddleware, auth, dropAllNews);
 router.patch("/news/:id", timeMiddleware, auth, setOneNews);

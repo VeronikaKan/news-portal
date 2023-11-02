@@ -3,14 +3,40 @@ const pool = new Pool({
   connectionString: `${process.env.connectionString}`
 });
 
-async function getAllNews(req, res) {
+async function getAllNews(req,res) {
   (async () => {
     const client = await pool.connect();
     try {
-      const news = await client.query(`select news_id, title, author,likes_count, views_count, content, date, image 
+      const news = await client.query(`select *
       from news
       left join likes using(likes_id)
       left join views using (views_id)`);
+      const allNews = news.rows;
+
+      if (!news.rows.length) {
+        return res.status(400).json("Новостей нет");
+      }
+      return res.status(200).json(allNews);
+    } finally {
+      client.release();
+    }
+  })().catch((err) => {
+    console.log(err);
+    return res.status(400).json(err.detail);
+  });
+}
+
+
+async function getAllNewsByCategory(req, res) {
+  (async () => {
+    const client = await pool.connect();
+    const { id } = req.params;
+    try {
+      const news = await client.query(`select news_id, title, author,likes_count, views_count, content, date, image, category_id
+      from news
+      left join likes using(likes_id)
+      left join views using (views_id)
+      where category_id=${id}`);
       const allNews = news.rows;
 
       if (!news.rows.length) {
@@ -123,7 +149,7 @@ async function getViewsCount(req, res) {
   });
 }
 
-module.exports = { getAllNews, getOneNews, getLikesCount, getViewsCount };
+module.exports = { getAllNews, getOneNews, getLikesCount, getViewsCount, getAllNewsByCategory };
 
 
 // const { Pool, Client } = require("pg");

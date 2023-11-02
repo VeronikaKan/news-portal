@@ -7,10 +7,13 @@ const App =()=> {
    <>
    <Router>
   <Header/>
+  <div className="super__wrapper">
   <Sidebar/>
   <Routes>
     <Route path="/" element={<Home/>}/>
   </Routes>
+<Sidebar/>
+  </div>
    </Router>
    </>
   );

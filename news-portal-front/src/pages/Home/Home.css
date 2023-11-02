@@ -66,3 +66,8 @@
     display: flex;
     justify-content: space-between;
 }
+.card__wrapper{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}

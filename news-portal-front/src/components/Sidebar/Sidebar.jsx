@@ -1,7 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import "./Sidebar.css"
+import { getCategories } from '../../redux/action'
+import { useDispatch, useSelector } from 'react-redux'
+
 
 const Sidebar = () => {
+  const dispatch = useDispatch()
+const categories = useSelector(state=>state.categories)
+ useEffect(() =>{
+  dispatch(getCategories())
+ },[])
   return (
 
      <div className='sidebar'>
@@ -21,10 +29,7 @@ Categories
 </p>
 </div>
 <ul className='sidebar__list'>
-<li className='sidebar__lists'>Все новости </li>
-<li className='sidebar__lists'> Спорт</li>
-<li className='sidebar__lists'>Экономика </li>
-<li className='sidebar__lists'> В мире</li>
+{categories.map((el)=>(<li key={el.title}>{el.category_name}</li>))}
 </ul>
 
 <div className='sidebar__wrapper'>

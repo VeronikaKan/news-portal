@@ -6,13 +6,13 @@ const pool = new Pool({
 
 async function addNews(req, res) {
   const time = req.requestTime;
-  const { author, content, title } = req.body;
+  const { author, content, title, category_id } = req.body;
   const filedata = req.file;
   let nameFile = "ggnews.jpg";
   if (filedata) {
     nameFile = filedata.originalname;
   }
-  if(!author || !title || !content){
+  if(!author || !title || !content || category_id){
     return res
     .status(400)
     .json({ message: "Otsutvuyut obyaz polya" });
@@ -32,6 +32,11 @@ async function addNews(req, res) {
       .status(400)
       .json({ message: "Неправильно заполнено поле content" });
   }
+  if (category_id.trim() === "") {
+    return res
+      .status(400)
+      .json({ message: "Неправильно заполнено поле category_id" });
+  }
   const client = await pool.connect();
   (async () => {
     try {
@@ -44,7 +49,7 @@ async function addNews(req, res) {
         "SELECT currval('likes_likes_id_seq'::regclass)"
       );
       await client.query(
-        "INSERT INTO news(title,date,author,content,likes_id,views_id, image) VALUES($1,$2,$3,$4,$5,$6,$7)",
+        "INSERT INTO news(title,date,author,content,likes_id,views_id, image, category_id) VALUES($1,$2,$3,$4,$5,$6,$7,$8)",
         [
           title,
           time,
@@ -53,6 +58,7 @@ async function addNews(req, res) {
           likeId.rows[0]["currval"],
           viewsId.rows[0]["currval"],
           `https://gipgipnews.herokuapp.com/upload/${nameFile}`,
+          category_id
         ]
       );
       const newsInfo = await client.query(
