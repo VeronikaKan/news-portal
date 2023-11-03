@@ -7,11 +7,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import Better from '../../components/Better/Better'
 const Home = () => {
   const dispatch = useDispatch()
+  const token = localStorage.getItem('token')
   const news = useSelector(state => state.allNews)
   const latestNews = news.slice(-2)
  useEffect(() =>{
   dispatch(getNews())
- },[])
+ },[token])
   return (
 <>
 

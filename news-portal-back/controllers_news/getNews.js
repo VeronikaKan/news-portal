@@ -36,7 +36,7 @@ async function getAllNewsByCategory(req, res) {
       from news
       left join likes using(likes_id)
       left join views using (views_id)
-      where category_id=${id}`);
+      where category_id='${id}'`);
       const allNews = news.rows;
 
       if (!news.rows.length) {

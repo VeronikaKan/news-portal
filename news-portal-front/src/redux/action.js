@@ -17,16 +17,36 @@ export const getNews = () =>{
         })
     }
  }
- export const getWeather = () =>{
-    return async (dispatch) => {
-        return await axios ('https://api.gismeteo.net/v2/search/cities/?query=Bishkek',{
-            headers :{
-          ['X-Gismeteo-Token']: '56b30cb255.3443075'
-            }
-        })
-        .then(res=> console.log(res))
+ export const register = (values) =>{
+
+    return async(dispatch) =>{
+       try{
+      const {data} = await axios.post('http://localhost:3030/api/add-user',
+         
+          {
+               email: values.email,
+               password: values.password2,
+               full_name : values.full_name,
+               date_of_birth :values.date_of_birth
+             }
+       )
+    dispatch({type:'REGISTER_USER',data})
     }
- }
+    catch(e){
+       console.log(e)}
+    }}
+
+    export const authorization = (values) => {
+        return (dispatch) => {
+            return axios.post('http://localhost:3030/api/login', {
+                email: values.email,
+                password: values.password
+            }).then(data => {
+                return data.data
+            })
+        }
+    }
+
 
 
    // useEffect(() => {

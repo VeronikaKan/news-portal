@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import * as Yup from 'yup'
 import { Formik, Form } from 'formik';
-// import { register } from '../redux/action';
-// import { useDispatch } from 'react-redux';
+import { register } from '../../redux/action';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import './Register.css'
 
 
 const SignupSchema = Yup.object().shape({
@@ -12,6 +13,11 @@ const SignupSchema = Yup.object().shape({
   .max(50, 'Слишком длинное имя')
   .required('Required'),
   // .matches(/^[aA-zZ]+$/, "Forbidden symbol"),
+  full_name:Yup.string()
+  .min(5, 'Cлишком короткое имя')
+  .max(50, 'Слишком длинное имя')
+  .required('Required'),
+  date_of_birth: Yup.date().nullable().min(new Date(1900, 0, 1)),
   password1: Yup.string()
   .required('Required')
   .min(5, 'Слишком короткий пароль')
@@ -22,14 +28,14 @@ const SignupSchema = Yup.object().shape({
 
  });
 
- const Registration = () => {
-//    const dispatch = useDispatch()
-//    const navigate = useNavigate()
+ const Register = () => {
+   const dispatch = useDispatch()
+   const navigate = useNavigate()
    const registrate = (values) =>{
-// if(values){
+if(values){
   navigate('/login')
-// }
-    // dispatch(register(values))
+}
+    dispatch(register(values))
    }
  
 //     const handleInput = (e) =>{
@@ -43,6 +49,8 @@ const SignupSchema = Yup.object().shape({
       <Formik
         initialValues={{
         email: '',
+        full_name:'',
+        date_of_birth:'',
           password1: '',
           password2:''
         }}
@@ -65,6 +73,24 @@ const SignupSchema = Yup.object().shape({
                 onChange={handleChange} />
 
               {errors.email && touched.email? <div>{errors.email}</div> : null}
+              <input
+                type="text"
+                name="full_name"
+                className="login__inp"
+                placeholder="full name"
+           
+                onChange={handleChange} />
+
+              {errors.full_name && touched.full_name? <div>{errors.full_name}</div> : null}
+              <input
+                type="date"
+                name="date_of_birth"
+                className="login__inp"
+                placeholder="date of birth"
+           
+                onChange={handleChange} />
+
+              {errors.date_of_birth && touched.date_of_birth? <div>{errors.date_of_birth}</div> : null}
 
               <input
                 type="text"
@@ -99,4 +125,4 @@ const SignupSchema = Yup.object().shape({
     </div>
   </div>)}
   
- export default Registration
+ export default Register
