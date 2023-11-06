@@ -42,6 +42,8 @@ export const getNews = () =>{
                 email: values.email,
                 password: values.password
             }).then(data => {
+              
+                dispatch ({type:"AUTH_USER" , payload:data.data.userId})
                 localStorage.setItem('token', data)
                 return dispatch({ type: 'AUTH', payload: data })
             })
@@ -70,7 +72,12 @@ export const getNews = () =>{
             }
         }
     }
-
+export const getUser =(userId) =>{
+    return async (dispatch) =>{
+        const {data} = await axios(`http://localhost:3030/api/user/${userId}`)
+        return dispatch ({type:"GET_USER",payload:data})
+    }
+ }
 
    // useEffect(() => {
   //   const getData = async () => {

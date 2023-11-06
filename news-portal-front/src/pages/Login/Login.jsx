@@ -62,7 +62,7 @@ logIn(values)
               {errors.email && touched.email? <div>{errors.email}</div> : null}
 
               <input
-                type="text"
+                type="password"
                 name="password"
                 className="login__inp"
                 placeholder="Password"

@@ -101,11 +101,11 @@ if(values){
                 onChange={handleChange}
                 // onInput={handleInput}
               />
-              {errors.password1 && touched.password1? <div>{errors.password1}</div> : null}
               <input
                 type="text"
                 name="password2"
-                className="login__inp"
+                className={errors.password1 && touched.password1?"login__err" : "login__inp"}
+
                 placeholder="Подтверждение пароля"
                 onChange={handleChange}
              

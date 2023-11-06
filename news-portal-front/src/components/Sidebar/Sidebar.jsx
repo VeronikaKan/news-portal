@@ -2,16 +2,20 @@ import React, { useEffect } from 'react'
 import "./Sidebar.css"
 import { getCategories } from '../../redux/action'
 import { useDispatch, useSelector } from 'react-redux'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import { selectCategory } from '../../redux/action'
+import { getUser } from '../../redux/action'
 
 
 const Sidebar = () => {
   const dispatch = useDispatch()
 const categories = useSelector(state=>state.categories)
-
+const userId = useSelector (state => state.userId)
+const user = useSelector(state => state.user)
+// console.log(11,user.oneUser.full_name);
  useEffect(() =>{
   dispatch(getCategories())
+  dispatch(getUser(userId))
  },[])
  const handleClick = (id) => {
  
@@ -24,7 +28,7 @@ const categories = useSelector(state=>state.categories)
 <div className='sidebar__avatar'>
     <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/User_icon-cp.svg/1200px-User_icon-cp.svg.png'/>
 </div>
-<p className='sidebar__name'>dfdfdfd dfdfd</p>
+<p className='sidebar__name'>{user.oneUser.full_name}</p>
 </div>
 <hr className='hr'/>
 <div className='sidebar__wrapper'>
@@ -38,7 +42,7 @@ const categories = useSelector(state=>state.categories)
 </NavLink>
 </div>
 <ul className='sidebar__list'>
-{categories.map((el)=>(<li key={el.title}  onClick={() =>handleClick(el.category_id)}>{el.category_name}</li>))}
+{categories.map((el)=>(<Link to = {`/${el.id}`}><li key={el.title}  onClick={() =>handleClick(el.category_id)}>{el.category_name}</li></Link>))}
 </ul>
 
 <div className='sidebar__wrapper'>

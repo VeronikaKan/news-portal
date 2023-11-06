@@ -7,6 +7,7 @@ import Favourites from "./pages/Favourites/Favourites";
 import Register from "./pages/Register/Register";
 import Login from "./pages/Login/Login";
 import { useSelector } from "react-redux";
+import OneCategory from "./pages/OneCategory/OneCategory";
 const App =()=> {
 
 const token = useSelector(state => state.token)
@@ -18,8 +19,9 @@ const token = useSelector(state => state.token)
  {token? <Sidebar/>:<p></p>}
   <Routes>
     <Route path="/" element={<Home/>}/>
+    <Route path="/:id" element ={<OneCategory/>}/>
     <Route path="/favourites" element={<Favourites/>}/>
-    <Route path="/register" element = {<Register/>}/>
+    <Route path= "/register" element = {<Register/>}/>
     <Route path="/login" element = {<Login/>}/>
   </Routes>
   {token? <Rightbar/>:<p></p>}
