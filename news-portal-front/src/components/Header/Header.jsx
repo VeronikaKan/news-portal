@@ -2,12 +2,16 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import './Header.css'
 import { useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { logout } from '../../redux/action'
 
 const Header = () => {
-    const token = localStorage.getItem('token')
+    const token = useSelector(state => state.token);
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+
     const handleClick = () => {
-        localStorage.clear()
+        dispatch(logout())
         navigate('/')
     }
   return (

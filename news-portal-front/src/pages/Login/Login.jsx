@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as Yup from 'yup'
 import { Formik, Form } from 'formik';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {authorization }from '../../redux/action';
+import './Login.css'
 
 const SignupSchema = Yup.object().shape({
   email: Yup.string().email('hjh')
@@ -20,20 +21,18 @@ const SignupSchema = Yup.object().shape({
  const Login = () => {
   const dispatch = useDispatch()
    const navigate = useNavigate()
+   const token = useSelector(state => state.token);
+
+   useEffect(() => {
+      if (token) navigate('/')
+   }, [token])
 
 
   
-  const logIn = (values) =>{
-dispatch(authorization(values))
-.then(data => { 
-  localStorage.setItem('token', data)
-  if (data) {
-    navigate('/')
-  }
-}
-)
-  }
+  const logIn = (values) => dispatch(authorization(values))
+
   return(
+
     <div className='login'>
     <div className="login__wrapper">
       <p className="login__title">Авторизация</p>
@@ -82,10 +81,18 @@ logIn(values)
           )
         }
       </Formik>
-      <NavLink to = '/register'>
+      <NavLink  to = '/register' >
+        <p className='login__register'>
 Создать аккаунт
+</p>
       </NavLink>
+      <p className='login__forgot'>
+Забыли пароль?
+  </p>
     </div>
-  </div>)}
+  
+  </div>
+
+ )}
   
  export default Login

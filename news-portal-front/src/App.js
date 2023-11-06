@@ -6,9 +6,10 @@ import Rightbar from "./components/Rightbar/Rightbar";
 import Favourites from "./pages/Favourites/Favourites";
 import Register from "./pages/Register/Register";
 import Login from "./pages/Login/Login";
+import { useSelector } from "react-redux";
 const App =()=> {
 
-const token = localStorage.getItem('token')
+const token = useSelector(state => state.token)
   return (
    <>
    <Router>

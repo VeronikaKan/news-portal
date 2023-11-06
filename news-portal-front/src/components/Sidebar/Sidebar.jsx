@@ -3,14 +3,20 @@ import "./Sidebar.css"
 import { getCategories } from '../../redux/action'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
+import { selectCategory } from '../../redux/action'
 
 
 const Sidebar = () => {
   const dispatch = useDispatch()
 const categories = useSelector(state=>state.categories)
+
  useEffect(() =>{
   dispatch(getCategories())
  },[])
+ const handleClick = (id) => {
+ 
+  dispatch(selectCategory(id))
+ }
   return (
 
      <div className='sidebar'>
@@ -32,7 +38,7 @@ const categories = useSelector(state=>state.categories)
 </NavLink>
 </div>
 <ul className='sidebar__list'>
-{categories.map((el)=>(<li key={el.title}>{el.category_name}</li>))}
+{categories.map((el)=>(<li key={el.title}  onClick={() =>handleClick(el.category_id)}>{el.category_name}</li>))}
 </ul>
 
 <div className='sidebar__wrapper'>

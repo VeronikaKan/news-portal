@@ -16,19 +16,19 @@ async function main(req, res) {
     // }
   });
   const info = await transporter.sendMail({
-    from: '"GG News KG" <ggnewskg@gmail.com>', // sender address
+    from: '"News-portal KG" <ggnewskg@gmail.com>', // sender address
     to: `${email}`, // list of receivers 
-    subject: "Восстановление пароля на новостном портале GG NEWS", // Subject line
+    subject: "Восстановление пароля на новостном портале News-portal", // Subject line
     text:
     `if forget password`, // plain text body
     html:
      `<h1><b>GG NEWS<b><h1/>
      <h5>Здравствуйте,
-    для восстановления доступа на GG NEWS, введите этот код-пароль для входа:<h5/>
+    для восстановления доступа на News-portal, введите этот код-пароль для входа:<h5/>
     <h5> ${password} <h5/>
 <h6> Если вы считаете, что данное сообщение отправлено вам ошибочно,
     просто проигнорируйте его. <h6/>
-    <h6>Мы отправили это письмо, потому что вы или кто-то другой указал этот адрес на Новостном портале GG News <h6/>`, // html body
+    <h6>Мы отправили это письмо, потому что вы или кто-то другой указал этот адрес на Новостном портале News-portal<h6/>`, // html body
   });
   res.status(200).json(info)
 }

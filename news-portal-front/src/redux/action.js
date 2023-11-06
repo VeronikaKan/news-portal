@@ -4,7 +4,7 @@ export const getNews = () =>{
     return async(dispatch) =>{
         return await axios ('http://localhost:3030/api/news')
         .then(res => {
-        
+            dispatch({ type:"GET_SELECTED_CATEGORY", payload:res.data });
             return dispatch({type:'GET_ALL_NEWS',payload:res.data})
         })
     }
@@ -37,16 +37,39 @@ export const getNews = () =>{
     }}
 
     export const authorization = (values) => {
-        return (dispatch) => {
-            return axios.post('http://localhost:3030/api/login', {
+        return async (dispatch) => {
+            return await axios.post('http://localhost:3030/api/login', {
                 email: values.email,
                 password: values.password
             }).then(data => {
-                return data.data
+                localStorage.setItem('token', data)
+                return dispatch({ type: 'AUTH', payload: data })
+            })
+            .catch(err => {
+                console.error(err)
             })
         }
     }
 
+    export const logout = () => {
+        return async (dispatch) => {
+            localStorage.clear()
+            return dispatch({ type: 'AUTH', payload: null })
+        }
+    }
+    export const selectCategory = (id) => {
+        return async (dispatch) => {
+            try {
+                const response = await axios(`http://localhost:3030/api/news-by-category_id/${id}`);
+                if (response?.data) {
+                    return dispatch({ type:"GET_SELECTED_CATEGORY", payload: response.data });
+                }
+                return dispatch({ type:"GET_SELECTED_CATEGORY", payload: [] });
+            } catch (e) {
+                return dispatch({ type:"GET_SELECTED_CATEGORY", payload: [] });
+            }
+        }
+    }
 
 
    // useEffect(() => {
