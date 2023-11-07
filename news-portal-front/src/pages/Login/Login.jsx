@@ -15,7 +15,7 @@ const SignupSchema = Yup.object().shape({
   password: Yup.string()
   .required('Required')
   .min(5, 'Слишком короткий пароль')
-  .max(15, "Слишком длинный пароль")
+  .max(50, "Слишком длинный пароль")
   .matches(/^[aA-zZ0-9.-_--]+$/, "Forbidden symbol"),
  });
 

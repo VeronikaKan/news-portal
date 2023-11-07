@@ -1,12 +1,14 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import defaultImage from '../../assets/news.png'
 import './Card.css'
+import { getNewsById } from '../../redux/action'
 const Card = ({item}) => {
-const cardImage = item.imag?item.image:defaultImage
+    const dispatch = useDispatch()
+// const cardImage = item.imag?item.image:defaultImage
 const token = useSelector (state => state.token)
-console.log(item.news_id);
+
 
 
   return (
@@ -16,13 +18,13 @@ console.log(item.news_id);
     
     <div className="bg-white shadow-md border border-gray-200 rounded-lg max-w-sm dark:bg-gray-800 dark:border-gray-700">
         <div className='card__img'>
-            <img className="rounded-t-lg " src ={cardImage} alt="news"/>
+            <img className="rounded-t-lg " src ={item.image} alt="news"/>
         </div>
         <div className="p-5">
             <a href="#">
                 <h5 className="text-gray-900 font-bold text-2xl tracking-tight mb-2 dark:text-white " >{item.title}</h5>
             </a>
-            <p className= "font-normal text-gray-700 mb-3 dark:text-gray-400 home__desc"  >{item.content}</p>
+            {/* <p className= "font-normal text-gray-700 mb-3 dark:text-gray-400 home__desc"  >{item.content}</p> */}
          {token? <div className='card__icons'>
           <div className='card__icon'>
             <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"/></svg>
@@ -34,12 +36,17 @@ console.log(item.news_id);
             </div>
           </div> :<div></div>
 }
-            <Link to = {`/${item.news_id}`} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" >
+            <Link to = {`/details/${item.news_id}`}  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" >
            Читать больше
                 <svg className="-mr-1 ml-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
             </Link>
         </div>
     </div>
+
+        <button className='card__btn'> 
+            X
+        </button>
+
 </div></div>
     )
 }

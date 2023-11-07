@@ -8,12 +8,14 @@ async function main(req, res) {
     port: 465,
     secure: true,
     auth: {
-        user: process.env.user,
-        pass: process.env.pass,
+        // user: process.env.user,
+        // pass: process.env.pass,
+        user:'ggnewskg@gmail.com',
+        pass:'kjxg vvlw foju cwug',
       },
-    // tls:{
-    //     rejectUnauthorized:false
-    // }
+    tls:{
+        rejectUnauthorized:false
+    }
   });
   const info = await transporter.sendMail({
     from: '"News-portal KG" <ggnewskg@gmail.com>', // sender address

@@ -21,4 +21,10 @@
 }
 .card{
     margin: 15px;
+    position: relative;
+}
+.card__btn{
+    position: absolute;
+    top: 0;
+    right: 0;
 }

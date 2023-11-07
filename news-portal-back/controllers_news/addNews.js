@@ -12,7 +12,7 @@ async function addNews(req, res) {
   if (filedata) {
     nameFile = filedata.originalname;
   }
-  if(!author || !title || !content || category_id){
+  if(!author || !title || !content || !category_id){
     return res
     .status(400)
     .json({ message: "Otsutvuyut obyaz polya" });
@@ -57,7 +57,7 @@ async function addNews(req, res) {
           content,
           likeId.rows[0]["currval"],
           viewsId.rows[0]["currval"],
-          `https://gipgipnews.herokuapp.com/upload/${nameFile}`,
+          `http://localhost:3030/upload/${nameFile}`,
           category_id
         ]
       );

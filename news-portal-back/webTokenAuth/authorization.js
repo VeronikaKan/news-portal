@@ -7,6 +7,7 @@ const pool = new Pool({
   connectionString: `${process.env.connectionString}`
 });
 async function loginUser(req, res) {
+  console.log(req.body);
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -22,7 +23,7 @@ async function loginUser(req, res) {
       const userInfo = await client.query(
         `select * from users where email='${email}'`
       );
-
+     
       const user = userInfo.rows[0];
       if (!user) {
         return res.status(400).json({ message: "Пользователь не найден" });
