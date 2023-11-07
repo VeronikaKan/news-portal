@@ -8,6 +8,8 @@ import Register from "./pages/Register/Register";
 import Login from "./pages/Login/Login";
 import { useSelector } from "react-redux";
 import OneCategory from "./pages/OneCategory/OneCategory";
+import Details from "./pages/Details/Details"
+import OneNews from "./components/OneNews/OneNews";
 const App =()=> {
 
 const token = useSelector(state => state.token)
@@ -20,9 +22,12 @@ const token = useSelector(state => state.token)
   <Routes>
     <Route path="/" element={<Home/>}/>
     <Route path="/:id" element ={<OneCategory/>}/>
+    <Route path = '/details' element = {<Details/>}/>
+    <Route path = '/details/:newsId' element = {<OneNews/>}/>
     <Route path="/favourites" element={<Favourites/>}/>
     <Route path= "/register" element = {<Register/>}/>
     <Route path="/login" element = {<Login/>}/>
+   
   </Routes>
   {token? <Rightbar/>:<p></p>}
   </div>

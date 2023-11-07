@@ -1,0 +1,9 @@
+.categories__wrapper{
+    padding: 100px 0;
+   flex-grow: 1;
+   flex-basis: 350px;
+   display: flex;
+   flex-wrap: wrap;
+   align-items: center;
+   justify-content: center;
+}

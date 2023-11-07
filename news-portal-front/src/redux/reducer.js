@@ -8,7 +8,8 @@ const initialState = {
     selected: [],
     token: localStorage.getItem('token'),
     userId: 0,
-    user:{}
+    user:{},
+    oneNews:{}
 
 }
 const newsReducer = (state = initialState, action) => {
@@ -27,6 +28,8 @@ const newsReducer = (state = initialState, action) => {
             return { ...state, categories: action.payload }
         case "GET_SELECTED_CATEGORY":
             return { ...state, selected: action.payload }
+            case'GET_NEWS_BY_ID':
+            return {...state,oneNews:action.payload}
         default:
             return state
     }

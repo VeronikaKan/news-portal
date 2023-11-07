@@ -3,24 +3,19 @@ import "./Sidebar.css"
 import { getCategories } from '../../redux/action'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, NavLink } from 'react-router-dom'
-import { selectCategory } from '../../redux/action'
-import { getUser } from '../../redux/action'
+
 
 
 const Sidebar = () => {
   const dispatch = useDispatch()
 const categories = useSelector(state=>state.categories)
-const userId = useSelector (state => state.userId)
-const user = useSelector(state => state.user)
-// console.log(11,user.oneUser.full_name);
+const user = JSON.parse(localStorage.getItem("user"))
+console.log(user);
  useEffect(() =>{
   dispatch(getCategories())
-  dispatch(getUser(userId))
+
  },[])
- const handleClick = (id) => {
- 
-  dispatch(selectCategory(id))
- }
+
   return (
 
      <div className='sidebar'>
@@ -28,7 +23,7 @@ const user = useSelector(state => state.user)
 <div className='sidebar__avatar'>
     <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/User_icon-cp.svg/1200px-User_icon-cp.svg.png'/>
 </div>
-<p className='sidebar__name'>{user.oneUser.full_name}</p>
+<p className='sidebar__name'>{user?.oneUser.full_name}</p>
 </div>
 <hr className='hr'/>
 <div className='sidebar__wrapper'>
@@ -42,7 +37,7 @@ const user = useSelector(state => state.user)
 </NavLink>
 </div>
 <ul className='sidebar__list'>
-{categories.map((el)=>(<Link to = {`/${el.id}`}><li key={el.title}  onClick={() =>handleClick(el.category_id)}>{el.category_name}</li></Link>))}
+{categories.map((el)=>(<Link to = {`/${el.category_id}`}><li key={el.title} >{el.category_name}</li></Link>))}
 </ul>
 
 <div className='sidebar__wrapper'>

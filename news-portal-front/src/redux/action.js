@@ -75,7 +75,15 @@ export const getNews = () =>{
 export const getUser =(userId) =>{
     return async (dispatch) =>{
         const {data} = await axios(`http://localhost:3030/api/user/${userId}`)
+        localStorage.setItem("user",JSON.stringify(data))
         return dispatch ({type:"GET_USER",payload:data})
+    }
+ }
+ export const getNewsById = (newsId) => {
+    return async (dispatch) => {
+        const res= await axios (`http://localhost:3030/api/news/${newsId}`)
+        console.log(111,res);
+        return dispatch ({type:"GET_NEWS_BY_ID",payload:res?.data})
     }
  }
 

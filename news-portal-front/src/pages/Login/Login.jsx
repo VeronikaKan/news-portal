@@ -3,8 +3,9 @@ import * as Yup from 'yup'
 import { Formik, Form } from 'formik';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import {authorization }from '../../redux/action';
+import {authorization, getUser }from '../../redux/action';
 import './Login.css'
+
 
 const SignupSchema = Yup.object().shape({
   email: Yup.string().email('hjh')
@@ -19,12 +20,15 @@ const SignupSchema = Yup.object().shape({
  });
 
  const Login = () => {
+  const userId = useSelector (state => state.userId)
   const dispatch = useDispatch()
    const navigate = useNavigate()
    const token = useSelector(state => state.token);
 
    useEffect(() => {
-      if (token) navigate('/')
+      if (token){
+        dispatch(getUser(userId))
+        navigate('/')}
    }, [token])
 
 

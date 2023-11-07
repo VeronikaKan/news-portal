@@ -13,6 +13,7 @@ const Home = () => {
   const news = useSelector(state => state.selected)
 
   const latestNews = allNews.slice(-2)
+  const betterNews = allNews.slice(-1)
  useEffect(() =>{
   dispatch(getNews())
  },[token])
@@ -23,7 +24,7 @@ const Home = () => {
 
 <section className='breaking'>
 <div className='container'>
-<Better/>
+<Better betterNews= {betterNews}/>
 
   <Latest latestNews= {latestNews} />
 <div className='card__wrapper'>
