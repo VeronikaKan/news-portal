@@ -11,12 +11,13 @@ const Home = () => {
   const token = localStorage.getItem('token')
   const allNews = useSelector(state => state.allNews)
   const news = useSelector(state => state.selected)
+  const like = useSelector(state => state.likeCount)
 
   const latestNews = allNews.slice(-2)
-  const betterNews = allNews.slice(-1)
+  const betterNews = allNews.slice(1,2)
  useEffect(() =>{
   dispatch(getNews())
- },[token])
+ },[token,like])
 
   return (
 <>

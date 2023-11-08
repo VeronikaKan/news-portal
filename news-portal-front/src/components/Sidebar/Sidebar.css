@@ -4,7 +4,7 @@
     left: 0;
     padding: 80px 20px;
     width: 250px;
-    min-height: 100vh;
+    height: 100vh;
     background-color:white;
     z-index: 1;
 -webkit-box-shadow: 2px 0 8px 0 rgba(34,60,80,0.2);

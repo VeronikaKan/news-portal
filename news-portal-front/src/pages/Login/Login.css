@@ -1,12 +1,29 @@
+.login__register {
+  text-align: center;
+  font-size: 24px;
+  margin: 10px auto;
+  color: white;
+  text-decoration: underline;
+}
 
-  .login__register{
-    text-align: center;
-    font-size: 24px;
-    margin: 10px auto;
-    color: white;
-  }
-  .login__forgot{
-text-align: center;
-color: white;
-  }
+.login__forgot {
+  text-align: center;
+  color: white;
+}
 
+@keyframes loader-rotate {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.loader {
+  border-right-color: transparent;
+  animation: loader-rotate 1s linear infinite;
+}
+.login__btn{
+  display: flex;
+  justify-content: center;
+}

@@ -8,6 +8,9 @@
     margin-right: 15px;
     align-items: center;
 }
+.card__icon i {
+    color: red;
+}
 .card__icon p {
     margin-left: 5px;
 }

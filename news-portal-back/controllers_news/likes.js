@@ -64,4 +64,36 @@ async function getUsersId(req, res) {
   });
 }
 
-module.exports = { addLike, getUsersId };
+async function getNewsLikedByUser(req, res) {
+  (async () => {
+    const client = await pool.connect();
+    try {
+      const token = req.headers.authorization.split(" ")[1];
+
+      const decoded = jwt.verify(token, "gipgip");
+
+      const user_id = decoded.userId;
+      const news = await client.query(
+        `SELECT like_id as news_id FROM likes_to_users WHERE user_id=${user_id}`
+      );
+      const all_news_liked = news.rows;
+
+      if (!all_news_liked.length) {
+        return res.status(400).json("Новости с таким id нет");
+      }
+      return res
+        .status(200)
+        .json({
+          "Все id новостей которые понравились юзеру": all_news_liked,
+        });
+    } finally {
+      client.release();
+    }
+  })().catch((err) => {
+    console.log(err);
+    return res.status(400).json(err.detail);
+  });
+}
+ 
+
+module.exports = { addLike, getUsersId, getNewsLikedByUser };

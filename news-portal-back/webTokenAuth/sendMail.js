@@ -32,7 +32,7 @@ async function main(req, res) {
     просто проигнорируйте его. <h6/>
     <h6>Мы отправили это письмо, потому что вы или кто-то другой указал этот адрес на Новостном портале News-portal<h6/>`, // html body
   });
-  res.status(200).json(info)
+  res.status(200).json({message:`message successfully sended to: ${email}`})
 }
   catch(e) {console.log(e); }
 }

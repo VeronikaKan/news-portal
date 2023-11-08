@@ -4,7 +4,7 @@
     right: 0;
     padding: 80px 20px;
     width: 250px;
-    min-height: 100vh;
+    height: 100vh;
     background-color:white;
     z-index: 1;
     -webkit-box-shadow: 2px 0 8px 0 rgba(34,60,80,0.2);
@@ -14,4 +14,11 @@ box-shadow:2px 0 8px 0 rgba(34,60,80,0.2);
 .rightbar__link{
     margin-bottom: 15px;
     text-decoration:underline;
+}
+.rightbar__link:hover{
+    color: rgb(118, 118, 158);
+}
+.rightbar__link p {
+    color: rgb(71, 65, 58);
+    font-size: 14px;
 }

@@ -15,10 +15,12 @@ const Details = () => {
     },[newsId])
   return (
     <div className='details__wrapper'>
-        <p>
+        <p className='details__title'>
             {oneNews.title}
         </p>
-        <img src={oneNews.image}/>
+    <div>
+    <img src={oneNews.image}/>
+    </div>
         <p>{oneNews.content}</p>
     </div>
   )

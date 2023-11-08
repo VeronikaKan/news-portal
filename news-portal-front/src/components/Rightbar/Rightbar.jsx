@@ -1,16 +1,17 @@
 import React, { useEffect } from 'react'
 import { UseSelector, useSelector } from 'react-redux/es/hooks/useSelector'
 import './Rightbar.css'
+import moment from 'moment';
 
 const Rightbar = () => {
     const news = useSelector(state => state.allNews)
-    console.log(news);
+  const rightBarNews = news.slice(0,6)
   return (
 
     <div className='rightbar'>
         <ul>
-           {news.map((item) => (
-<li className='rightbar__link'>{item.title}<p>{(item.date)}</p></li>
+           {rightBarNews.map((item) => (
+<li className='rightbar__link'>{item.title}<p>{moment(item.date).format("LLLL")}</p></li>
 
            ))} 
         </ul>

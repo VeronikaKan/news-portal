@@ -1,3 +1,6 @@
 .latest__img:not(:last-child){
     margin-right: 15px;
 }
+.latest__img{
+    margin-bottom: 15px;
+}

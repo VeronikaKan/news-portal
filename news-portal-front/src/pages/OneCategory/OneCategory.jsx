@@ -4,8 +4,12 @@ import Card from '../../components/Card/Card'
 import { useParams } from 'react-router-dom'
 import { selectCategory } from '../../redux/action'
 import "./OneCategory.css"
+import { addLike } from '../../redux/action'
 
 const OneCategory = () => {
+  useEffect(() =>{
+    addLike()
+  },[])
     const {id} = useParams()
     const dispatch = useDispatch()
     const news = useSelector(state => state.selected)

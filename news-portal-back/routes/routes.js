@@ -18,11 +18,11 @@ const {
   getViewsCount,
   getAllNewsByCategory,
 } = require("../controllers_news/getNews");
-const { addLike, getUsersId } = require("../controllers_news/likes");
+const { addLike, getUsersId ,getNewsLikedByUser} = require("../controllers_news/likes");
 
 const { createUser } = require("../controllers_users/createUser");
 const { getOneUser, getAllUsers } = require("../controllers_users/getUser");
-const { loginUser } = require("../webTokenAuth/authorization");
+const { loginUser, setNewPassword } = require("../webTokenAuth/authorization");
 const { forgetPassword } = require('../webTokenAuth/resetPassword');
 const { getAllCategories } = require("../controllers_categories/getCategory");
 
@@ -58,6 +58,7 @@ router.get("/users", timeMiddleware, getAllUsers);
 
 router.post("/add-like", timeMiddleware, auth, addLike);
 router.get("/news-liked/:id", timeMiddleware, getUsersId);
+router.get("/news-liked-by-user", timeMiddleware,auth,getNewsLikedByUser)
 
 router.post(
   "/login",
@@ -66,6 +67,16 @@ router.post(
     check("password", "Введите пароль").exists(),
   ],
   loginUser
+);
+
+router.post(
+  "/setNewPass",
+  [
+    check("email", "Введите корректный email").isEmail(),
+    check("temporary_password", "Введите отправленный код").exists(),
+    check("new_password", "Введите новый пароль").exists(),
+  ],
+  setNewPassword
 );
 
 module.exports = {

@@ -18,11 +18,9 @@ export const getNews = () =>{
     }
  }
  export const register = (values) =>{
-
     return async(dispatch) =>{
        try{
       const {data} = await axios.post('http://localhost:3030/api/add-user',
-         
           {
                email: values.email,
                password: values.password2,
@@ -38,17 +36,19 @@ export const getNews = () =>{
 
     export const authorization = (values) => {
         return async (dispatch) => {
+            dispatch ({ type: "SHOW LOADER", payload: true})
             return await axios.post('http://localhost:3030/api/login', {
                 email: values.email,
                 password: values.password
             }).then(data => {
-              
+                dispatch ({ type: "SHOW LOADER", payload: false})
                 dispatch ({type:"AUTH_USER" , payload:data.data.userId})
-                localStorage.setItem('token', data)
+                localStorage.setItem('token',JSON.stringify( data.data))
                 return dispatch({ type: 'AUTH', payload: data })
             })
             .catch(err => {
-                console.error(err)
+                dispatch ({ type: "SHOW LOADER", payload: false})
+                alert("Неправильный логин или пароль")
             })
         }
     }
@@ -80,12 +80,35 @@ export const getUser =(userId) =>{
     }
  }
  export const getNewsById = (newsId) => {
-    return async (dispatch) => {
+    
+        return async (dispatch) => {
+            dispatch({type:"ADD_LIKE",payload:0})
         const res= await axios (`http://localhost:3030/api/news/${newsId}`)
-        console.log(111,res);
+        dispatch({type:"ADD_LIKE",payload:res.data.likes_count})
         return dispatch ({type:"GET_NEWS_BY_ID",payload:res?.data})
     }
  }
+ export const addLike = (likeId) =>{
+const token = JSON.parse(localStorage.getItem('token'))
+    return async (dispatch) => {
+        const {data} = await axios ('http://localhost:3030/api/add-like', {
+            method:"POST",
+            headers:{
+Authorization :`Bearer ${token.token}`
+            },
+          data:{
+news_id:likeId,
+
+          }
+
+        })
+   console.log(data);
+        return  
+      
+    }
+ }
+
+
 
    // useEffect(() => {
   //   const getData = async () => {

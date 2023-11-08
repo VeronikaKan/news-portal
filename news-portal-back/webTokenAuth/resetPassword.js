@@ -27,7 +27,11 @@ async function forgetPassword(req, res, next) {
       if (!user) {
         return res.status(400).json({ message: "Пользователь не найден" });
       }
-      const password = user.password
+      const password = Math.floor(100000 + Math.random() * 900000)
+    const hashedPassword = await bcrypt.hash(password+'', 12);
+      await client.query(
+        `UPDATE users SET is_password_recovery=true, temporary_pass='${hashedPassword}' WHERE email='${email}'`
+      );
      req.body = { email, password}
      next()
     } finally {

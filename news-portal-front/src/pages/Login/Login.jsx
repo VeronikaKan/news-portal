@@ -24,6 +24,7 @@ const SignupSchema = Yup.object().shape({
   const dispatch = useDispatch()
    const navigate = useNavigate()
    const token = useSelector(state => state.token);
+   const loader = useSelector(state => state.loader)
 
    useEffect(() => {
       if (token){
@@ -78,9 +79,7 @@ logIn(values)
               <button
                 type="submit"
                 className="login__btn"
-              >Войти</button>
-              
-
+              >{loader? <div class="w-8 h-8 border-4 border-blue-600 rounded-full loader"></div>:'Boйти'}</button>
             </Form>
           )
         }
