@@ -1,4 +1,5 @@
 import axios from "axios"
+import { useEffect } from "react";
 
 export const getNews = () =>{
     return async(dispatch) =>{
@@ -43,7 +44,7 @@ export const getNews = () =>{
             }).then(data => {
                 dispatch ({ type: "SHOW LOADER", payload: false})
                 dispatch ({type:"AUTH_USER" , payload:data.data.userId})
-                localStorage.setItem('token',JSON.stringify( data.data))
+                localStorage.setItem('token', data.data.token)
                 return dispatch({ type: 'AUTH', payload: data })
             })
             .catch(err => {
@@ -89,12 +90,12 @@ export const getUser =(userId) =>{
     }
  }
  export const addLike = (likeId) =>{
-const token = JSON.parse(localStorage.getItem('token'))
+const token = localStorage.getItem('token')
     return async (dispatch) => {
         const {data} = await axios ('http://localhost:3030/api/add-like', {
             method:"POST",
             headers:{
-Authorization :`Bearer ${token.token}`
+Authorization :`Bearer ${token}`
             },
           data:{
 news_id:likeId,
@@ -107,6 +108,77 @@ news_id:likeId,
       
     }
  }
+ export const forgetPassword =(values) =>{
+    let payload ={email:values.email}
+    return async() => {
+const {data} = await axios.post('http://localhost:3030/api/forget-password',payload)
+alert(data.message)
+
+    }
+ }
+
+ export const restorePassword = (values) => {
+    let payload = {
+        email:values.email,
+        temporary_password:values.temporaryPassword,
+      new_password:values.newPassword
+    }
+    return async() => {
+const {data} = await axios.post('http://localhost:3030/api/setNewPass',payload)
+alert(data.message)
+    }
+ }
+
+ export const getWeather = () => {
+    return async (dispatch) => {
+        const { data } = await axios('https://api.openweathermap.org/data/2.5/weather?q=Bishkek&appid=c15601da476242f8e33e17e82e4421e2')
+return dispatch({type:"WEATHER",payload:data.temp})
+    }
+  }
+
+  export const deleteNews = (id) => {
+    return async (dispatch) => {
+        await axios.delete(`http://localhost:3030/api/news/${id}`)
+   
+    }
+  }
+
+  export const addNews = (values) =>{
+    const token = localStorage.getItem("token")
+    return async(dispatch) =>{
+        const {data} = await axios.post('http://localhost:3030/api/add-news',{
+            headers:{
+                Authorization :`Bearer ${token}`
+                            },   
+        body:{
+                title:values.title,
+                content:values.content,
+                author:values.author,
+                category_id:values.categoryID,
+                image:values.image
+            }
+        })
+        console.log(data);
+        // return dispatch({type:"ADD_NEWS",data})
+    }
+  }
+//  export const getNewsLikedByUser = () => {
+//     const token = JSON.parse(localStorage.getItem('token'))
+//     return async() =>{
+      
+//         const {data} = await axios ("http://localhost:3030/api/news-liked-by-user",{
+//             headers:{
+//                 Authorization :`Bearer ${token.token}`
+//                             }
+//         })
+//         console.log(data);
+//     return 
+    
+//     }
+
+//  }
+ 
+
 
 
 

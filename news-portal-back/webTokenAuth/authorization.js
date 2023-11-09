@@ -29,7 +29,7 @@ async function loginUser(req, res) {
       }
 if(user.is_password_recovery){
   return res.status(401).json({ message:'must create new password', userId: user.user_id });
-}
+}console.log(password);
       const isMatch = await bcrypt.compare(password, user.password);
 
       if (!isMatch) {
@@ -38,7 +38,7 @@ if(user.is_password_recovery){
           .json({ message: "Неверный пароль, попробуйте снова" });
       }
       const token = jwt.sign(
-        { email: user.email, userId: user.user_id },
+        { email: user.email, userId: user.user_id ,is_admin:user.is_admin},
         "gipgip"
         // { expiresIn: "1h" }
       );
@@ -46,7 +46,7 @@ if(user.is_password_recovery){
       req.headers.authorization = token.split(" ")[1];
       return res.status(200).json({ token, userId: user.user_id });
     } finally {
-      client.release();
+      await client.release();
     }
   })().catch((err) => {
     console.log(err);
@@ -96,7 +96,7 @@ console.log(user);
       );
       return res.status(201).json({ message:`new password for user - ${email} is successfully changed`, userId: user.user_id });
     } finally {
-      client.release();
+      await client.release();
     }
   })().catch((err) => {
     console.log(err);

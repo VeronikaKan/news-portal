@@ -1,22 +1,29 @@
 import React from 'react'
 import './Latest.css'
-
-const Latest = ({latestNews}) => {
+import MiniCard from '../MiniCard/MiniCard'
+const Latest = ({latestNews,miniCardNews}) => {
   
   return (
 
      <section className='latest'>
-    <div className='latest__wrapper'>
-      {
-        latestNews.map((el) =>(
-    <div className='latest__img'>
-    <img src='https://media4.s-nbcnews.com/i/newscms/2019_01/2705191/nbc-social-default_b6fa4fef0d31ca7e8bc7ff6d117ca9f4.png'/>
-    <span className='latest__title'>
-{el.title}
-    </span>
-    </div>
-))}
+   <div className='latest__wrapper'>
+    {miniCardNews.map((el) =>(
+<div className='latest__column1'>
+<div className='column1__img'>
+  <img src={el.image}/>
 </div>
+<p className='column1__title'>
+  {el.title}
+</p>
+<p className='column1__content truncate'>{el.content}<span>...</span></p>
+</div>))}
+<div className='latest__column2'>
+<MiniCard latestNews = {latestNews}/>
+</div>
+<div className='latest__column3'>
+df
+</div>
+   </div>
     </section>
 
   )

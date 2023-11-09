@@ -22,7 +22,7 @@ async function dropOneNews(req, res) {
       
       return res.status(200).json({ time, massege: "Новость успешно удалена" }); 
     } finally {
-      client.release();
+       await client.release();
     }
   })().catch((err) => {
     console.log(err);
@@ -47,7 +47,7 @@ async function dropAllNews(req, res) {
         .status(200)
         .json({ time, massege: "Все новости успешно удалены" });
     } finally {
-      client.release();
+       await client.release();
     }
   })().catch((err) => {
     console.log(err);

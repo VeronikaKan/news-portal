@@ -35,7 +35,7 @@ async function forgetPassword(req, res, next) {
      req.body = { email, password}
      next()
     } finally {
-      client.release();
+       await client.release();
     }
   })().catch((err) => {
     console.log(err);

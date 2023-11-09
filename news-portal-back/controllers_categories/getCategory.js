@@ -14,7 +14,7 @@ async function getAllCategories(req, res) {
       }
       return res.status(200).json(allCategories);
     } finally {
-      client.release();
+       await client.release();
     }
   })().catch((err) => {
     console.log(err);

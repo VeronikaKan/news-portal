@@ -6,12 +6,15 @@ const initialState = {
     categories: [],
     registerUser: {},
     selected: [],
-    token: JSON.parse(localStorage.getItem('token')),
+    token: localStorage.getItem('token'),
     userId: 0,
     user: {},
     oneNews: {},
     likeCount: 0,
-    loader: false
+    loader: false,
+    toggleSidebar: false,
+    admin: false,
+weather:''
 
 }
 const newsReducer = (state = initialState, action) => {
@@ -36,6 +39,12 @@ const newsReducer = (state = initialState, action) => {
             return { ...state, oneNews: action.payload }
         case "ADD_LIKE":
             return { ...state, likeCount: action.payload }
+        case "TOGGLE_SIDEBAR":
+            return { ...state, toggleSidebar: action.payload }
+        case "IS_ADMIN":
+            return { ...state, admin: action.payload }
+            case "WEATHER":
+                return{...state,weather:action.payload}
 
         default:
             return state

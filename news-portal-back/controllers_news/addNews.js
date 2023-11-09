@@ -70,7 +70,7 @@ async function addNews(req, res) {
         .status(200)
         .json({ massege: "Новость успешно сохранена", news });
     } finally {
-      client.release();
+       await client.release();  
     }
   })().catch((err) => {
     console.log(err);

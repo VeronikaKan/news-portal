@@ -17,7 +17,8 @@ async function getAllUsers(req, res) {
       }
       return res.status(200).json({ time, allUsers });
     } finally {
-      client.release();
+       await client.release();
+      await pool.end()
     }
   })().catch((err) => {
     console.log(err);
@@ -41,7 +42,7 @@ async function getOneUser(req, res) {
       }
       return res.status(200).json({ time, oneUser });
     } finally {
-      client.release();
+      await client.release();
     }
   })().catch((err) => {
     console.log(err);

@@ -9,6 +9,8 @@ import Login from "./pages/Login/Login";
 import { useSelector } from "react-redux";
 import OneCategory from "./pages/OneCategory/OneCategory";
 import Details from "./pages/Details/Details"
+import Forget from "./pages/Forget/Forget";
+import Admin from "./pages/Admin/Admin";
 
 const App =()=> {
 
@@ -26,7 +28,8 @@ const token = useSelector(state => state.token)
     <Route path="/favourites" element={<Favourites/>}/>
     <Route path= "/register" element = {<Register/>}/>
     <Route path="/login" element = {<Login/>}/>
-   
+    <Route path="/forget" element = {<Forget/>}/>
+   <Route path = "/admin" element = {<Admin/>}/>
   </Routes>
   {token? <Rightbar/>:<p></p>}
   </div>

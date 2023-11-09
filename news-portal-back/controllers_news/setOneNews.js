@@ -35,7 +35,7 @@ async function setOneNews(req, res) {
           .status(200)
           .json({ time, message: "новость успешно изменена" });
       } finally {
-        client.release();
+        await client.release();
       }
     })().catch((err) => console.log(err));
   }

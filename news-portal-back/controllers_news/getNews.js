@@ -19,7 +19,7 @@ async function getAllNews(req,res) {
       }
       return res.status(200).json(allNews);
     } finally {
-      client.release();
+      await client.release();
     }
   })().catch((err) => {
     console.log(err);
@@ -46,7 +46,7 @@ async function getAllNewsByCategory(req, res) {
       }
       return res.status(200).json(allNews);
     } finally {
-      client.release();
+      await client.release();
     }
   })().catch((err) => {
     console.log(err);
@@ -95,7 +95,7 @@ async function getOneNews(req, res) {
       }
       return res.status(200).json(oneNews);
     } finally {
-      client.release();
+      await client.release();
     }
   })().catch((err) => {
     console.log(err);
@@ -119,7 +119,7 @@ async function getLikesCount(req, res) {
       }
       return res.status(200).json({ time, oneCount });
     } finally {
-      client.release();
+      await client.release();
     }
   })().catch((err) => {
     console.log(err);
@@ -143,7 +143,7 @@ async function getViewsCount(req, res) {
       }
       return res.status(200).json({ time, oneCount });
     } finally {
-      client.release();
+      await client.release();
     }
   })().catch((err) => {
     console.log(err);
@@ -179,7 +179,7 @@ module.exports = { getAllNews, getOneNews, getLikesCount, getViewsCount, getAllN
 //       }
 //       return res.status(200).json(allNews);
 //     } finally {
-//       client.release();
+//       await client.release();
 //     }
 //   })().catch((err) => {
 //     console.log(err);
@@ -228,7 +228,7 @@ module.exports = { getAllNews, getOneNews, getLikesCount, getViewsCount, getAllN
 //       }
 //       return res.status(200).json(oneNews);
 //     } finally {
-//       client.release();
+//       await client.release();
 //     }
 //   })().catch((err) => {
 //     console.log(err);
@@ -252,7 +252,7 @@ module.exports = { getAllNews, getOneNews, getLikesCount, getViewsCount, getAllN
 //       }
 //       return res.status(200).json({ time, oneCount });
 //     } finally {
-//       client.release();
+//       await client.release();
 //     }
 //   })().catch((err) => {
 //     console.log(err);
@@ -276,7 +276,7 @@ module.exports = { getAllNews, getOneNews, getLikesCount, getViewsCount, getAllN
 //       }
 //       return res.status(200).json({ time, oneCount });
 //     } finally {
-//       client.release();
+//       await client.release();
 //     }
 //   })().catch((err) => {
 //     console.log(err);

@@ -29,7 +29,7 @@ async function addLike(req, res) {
         message: `Пользователь ${user.rows[0]["full_name"]} лайкнул новость ${news.rows[0]["title"]}`,
       });
     } finally {
-      client.release();
+       await client.release();
     }
   })().catch((err) => {
     console.log(err);
@@ -56,7 +56,7 @@ async function getUsersId(req, res) {
           "Все id пользователей которым понравилась новость": all_users_liked,
         });
     } finally {
-      client.release();
+       await client.release();
     }
   })().catch((err) => {
     console.log(err);
@@ -87,7 +87,7 @@ async function getNewsLikedByUser(req, res) {
           "Все id новостей которые понравились юзеру": all_news_liked,
         });
     } finally {
-      client.release();
+      await client.release();
     }
   })().catch((err) => {
     console.log(err);

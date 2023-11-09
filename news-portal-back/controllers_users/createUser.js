@@ -51,7 +51,7 @@ async function createUser(req, res) {
         const user = userInfo.rows[0];
         return res.status(200).json({ massege: "User успешно создан", user });
       } finally {
-        client.release();
+        await client.release();
       }
     })().catch((err) => {
       console.log(err);

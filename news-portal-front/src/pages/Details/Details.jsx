@@ -18,10 +18,16 @@ const Details = () => {
         <p className='details__title'>
             {oneNews.title}
         </p>
-    <div>
+    <div className='details__img'>
     <img src={oneNews.image}/>
     </div>
-        <p>{oneNews.content}</p>
+        <p className='details__content'>{oneNews.content}</p>
+        <div className='details__icon'>
+        <span>Просмотров</span>
+                        <i class="fa-solid fa-eye"></i>
+                        <p>{oneNews.views_count}
+                       </p>
+                    </div>
     </div>
   )
 }
