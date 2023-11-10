@@ -1,11 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
-const { Pool, Client } = require("pg");
-
-const pool = new Pool({
-  connectionString: `${process.env.connectionString}`
-});
+const { pool } = require("../pg-connection");
 
 async function forgetPassword(req, res, next) {
   const errors = validationResult(req);
@@ -17,35 +13,33 @@ async function forgetPassword(req, res, next) {
     });
   }
   const { email } = req.body;
-  (async () => {
-    const client = await pool.connect();
-    try {
-      const userInfo = await client.query(
-        `select * from users where email='${email}'`
-      );
-      const user = userInfo.rows[0];
-      if (!user) {
-        return res.status(400).json({ message: "Пользователь не найден" });
-      }
-      const password = Math.floor(100000 + Math.random() * 900000)
-    const hashedPassword = await bcrypt.hash(password+'', 12);
-      await client.query(
-        `UPDATE users SET is_password_recovery=true, temporary_pass='${hashedPassword}' WHERE email='${email}'`
-      );
-     req.body = { email, password}
-     next()
-    } finally {
-       await client.release();
+  const client = await pool.connect();
+  try {
+    const userInfo = await client.query(
+      `select * from users where email='${email}'`
+    );
+    const user = userInfo.rows[0];
+    if (!user) {
+      return res.status(400).json({ message: "Пользователь не найден" });
     }
-  })().catch((err) => {
+    const password = Math.floor(100000 + Math.random() * 900000);
+    const hashedPassword = await bcrypt.hash(password + "", 12);
+    await client.query(
+      `UPDATE users SET is_password_recovery=true, temporary_pass='${hashedPassword}' WHERE email='${email}'`
+    );
+    req.body = { email, password };
+    next();
+  } catch (err) {
     console.log(err);
     return res.status(400).json({
       message: "Что-то пошло не так, попробуйте снова",
       error: err.detail,
     });
-  });
+  } finally {
+    await client.release();
+  }
 }
 
 module.exports = {
-    forgetPassword,
+  forgetPassword,
 };

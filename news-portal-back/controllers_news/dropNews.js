@@ -1,8 +1,4 @@
-const { Pool, Client } = require("pg");
-
-const pool = new Pool({
-  connectionString: `${process.env.connectionString}`
-});
+const { pool } = require("../pg-connection");
 async function dropOneNews(req, res) {
   const { id } = req.params;
   const time = req.requestTime;
@@ -11,18 +7,24 @@ async function dropOneNews(req, res) {
     const client = await pool.connect();
     try {
       const news = await client.query(`select * from news where news_id=${id}`);
-      if(!news.rows[0]){
-        return res.status(200).json("Новость с таким id отсутствует")
+      if (!news.rows[0]) {
+        return res.status(200).json("Новость с таким id отсутствует");
       }
-      const count = await client.query(`select likes_id from news where news_id=${id}`);
-      await client.query(`DELETE FROM news WHERE news_id =${id}`);
-      await client.query(`DELETE FROM likes_to_users WHERE like_id=${id}`)
-      await client.query(`DELETE FROM likes WHERE likes_id =${count.rows[0]["likes_id"]}`);
-      await client.query(`DELETE FROM views WHERE views_id =${count.rows[0]["likes_id"]}`);
-      
-      return res.status(200).json({ time, massege: "Новость успешно удалена" }); 
+      const count = await client.query(
+        `select likes_id from news where news_id=${id}`
+      );
+      await client.query(`DELETE FROM news WHERE news_id =${id};
+        DELETE FROM likes_to_users WHERE like_id=${id}`);
+      await client.query(
+        `DELETE FROM likes WHERE likes_id =${count.rows[0]["likes_id"]}`
+      );
+      await client.query(
+        `DELETE FROM views WHERE views_id =${count.rows[0]["likes_id"]}`
+      );
+
+      return res.status(200).json({ time, massege: "Новость успешно удалена" });
     } finally {
-       await client.release();
+      await client.release();
     }
   })().catch((err) => {
     console.log(err);
@@ -36,18 +38,25 @@ async function dropAllNews(req, res) {
   (async () => {
     const client = await pool.connect();
     try {
-      await client.query(`TRUNCATE TABLE news CASCADE`);
-      await client.query(`TRUNCATE TABLE likes CASCADE`);
-      await client.query(`TRUNCATE TABLE views CASCADE`);
-      await client.query(`TRUNCATE TABLE likes_to_users CASCADE`);
-      await client.query(`select setval('news_news_id_seq'::regclass, 1, true)`)
-      await client.query(`select setval('likes_likes_id_seq'::regclass, 1, true)`)
-      await client.query(`select setval('views_id_seq'::regclass, 1, true)`)
+      await client.query(`TRUNCATE TABLE news CASCADE;
+      TRUNCATE TABLE likes CASCADE;
+      TRUNCATE TABLE views CASCADE;
+      TRUNCATE TABLE likes_to_users CASCADE;
+      select setval('news_news_id_seq'::regclass, 1, true);
+      select setval('likes_likes_id_seq'::regclass, 1, true);
+      select setval('views_id_seq'::regclass, 1, true);
+      `);
+      // await client.query(`TRUNCATE TABLE likes CASCADE`);
+      // await client.query(`TRUNCATE TABLE views CASCADE`);
+      // await client.query(`TRUNCATE TABLE likes_to_users CASCADE`);
+      // await client.query(`select setval('news_news_id_seq'::regclass, 1, true)`)
+      // await client.query(`select setval('likes_likes_id_seq'::regclass, 1, true)`)
+      // await client.query(`select setval('views_id_seq'::regclass, 1, true)`)
       return res
         .status(200)
         .json({ time, massege: "Все новости успешно удалены" });
     } finally {
-       await client.release();
+      await client.release();
     }
   })().catch((err) => {
     console.log(err);

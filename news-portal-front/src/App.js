@@ -20,7 +20,7 @@ const token = useSelector(state => state.token)
    <Router>
   <Header/>
   <div className="super__wrapper">
- {token? <Sidebar/>:<p></p>}
+ {token ? <Sidebar/>:<p></p>}
   <Routes>
     <Route path="/" element={<Home/>}/>
     <Route path="/:id" element ={<OneCategory/>}/>

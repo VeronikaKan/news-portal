@@ -1,13 +1,14 @@
 
 
 .home{
-    -webkit-backdrop-filter: blur(70px);
-    backdrop-filter: blur(70px);
-    border-radius: 10px;
+  
     padding: 100px 0;
     width: 100%;
 }
 .home__wrapper{
+    -webkit-backdrop-filter: blur(70px);
+    backdrop-filter: blur(70px);
+    border-radius: 10px;
     display: grid;
     grid-template-columns: repeat(5,1fr);
     gap:15px;

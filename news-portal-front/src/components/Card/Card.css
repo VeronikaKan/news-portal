@@ -9,8 +9,9 @@
     align-items: center;
 }
 .card__icon i {
-    color: red;
+    color: gray;
 }
+
 .card__icon p {
     margin-left: 5px;
 }

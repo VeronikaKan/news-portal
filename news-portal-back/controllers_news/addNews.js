@@ -1,26 +1,18 @@
-const { Pool, Client } = require("pg");
-
-const pool = new Pool({
-  connectionString: `${process.env.connectionString}`
-});
+const { pool } = require("../pg-connection");
 
 async function addNews(req, res) {
   const time = req.requestTime;
   const { author, content, title, category_id } = req.body;
   const filedata = req.file;
-  if(!req.file){
-    return res
-    .status(400)
-    .json({ message: "Otsutvuyet kartinka" });
+  if (!req.file) {
+    return res.status(400).json({ message: "Otsutvuyet kartinka" });
   }
   let nameFile = "ggnews.jpg";
   if (filedata) {
     nameFile = filedata.originalname;
   }
-  if(!author || !title || !content || !category_id){
-    return res
-    .status(400)
-    .json({ message: "Otsutvuyut obyaz polya" });
+  if (!author || !title || !content || !category_id) {
+    return res.status(400).json({ message: "Otsutvuyut obyaz polya" });
   }
   if (author.trim() === "") {
     return res
@@ -63,7 +55,7 @@ async function addNews(req, res) {
           likeId.rows[0]["currval"],
           viewsId.rows[0]["currval"],
           `http://localhost:3030/upload/${nameFile}`,
-          category_id
+          category_id,
         ]
       );
       const newsInfo = await client.query(
@@ -74,8 +66,10 @@ async function addNews(req, res) {
       return res
         .status(200)
         .json({ massege: "Новость успешно сохранена", news });
+    } catch (e) {
+      console.log(e);
     } finally {
-       await client.release();  
+      await client.release();
     }
   })().catch((err) => {
     console.log(err);

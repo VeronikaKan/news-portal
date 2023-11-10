@@ -1,99 +1,98 @@
-const { Pool, Client } = require("pg");
 const jwt = require("jsonwebtoken");
-
-const pool = new Pool({
-  connectionString: `${process.env.connectionString}`
-});
+const { pool } = require("../pg-connection");
 
 async function addLike(req, res) {
   const { news_id } = req.body;
-  (async () => {
-    const client = await pool.connect();
-    try {
-      const token = req.headers.authorization.split(" ")[1];
+  const client = await pool.connect();
+  try {
+    const token = req.headers.authorization.split(" ")[1];
 
-      const decoded = jwt.verify(token, "gipgip");
+    const decoded = jwt.verify(token, "gipgip");
 
-      const user_id = decoded.userId;
+    const user_id = decoded.userId;
+    const like = await client.query(
+      `select id from likes_to_users where user_id=${user_id} and like_id=${news_id} `
+    );
+    if(like?.rows[0]?.id){
       await client.query(
-        "INSERT INTO likes_to_users(like_id,user_id) VALUES($1,$2)",
-        [news_id, user_id]
-      );
-      const news = await client.query(
-        `SELECT title from news WHERE news_id=${news_id}`
-      );
-      const user = await client.query(
-        `SELECT full_name from users WHERE user_id=${user_id}`
+        `delete from likes_to_users where id=${like.rows[0].id}`
       );
       return res.status(200).json({
-        message: `Пользователь ${user.rows[0]["full_name"]} лайкнул новость ${news.rows[0]["title"]}`,
+        message: `Пользователь ${user_id} udalil лайк ${news_id}`,
       });
-    } finally {
-       await client.release();
     }
-  })().catch((err) => {
+    await client.query(
+      "INSERT INTO likes_to_users(like_id,user_id) VALUES($1,$2)",
+      [news_id, user_id]
+    );
+    return res.status(200).json({
+      message: `Пользователь ${user_id} лайкнул новость ${news_id}`,
+    });
+  } catch (err) {
     console.log(err);
     return res.status(400).json(err.detail);
-  });
+  } finally {
+    await client.release();
+  }
 }
 
 async function getUsersId(req, res) {
   const { id } = req.params;
-  (async () => {
-    const client = await pool.connect();
-    try {
-      const users = await client.query(
-        `SELECT user_id FROM likes_to_users WHERE like_id=${id}`
-      );
-      const all_users_liked = users.rows;
+  const client = await pool.connect();
+  try {
+    const users = await client.query(
+      `SELECT user_id FROM likes_to_users WHERE like_id=${id}`
+    );
+    const all_users_liked = users.rows;
 
-      if (!all_users_liked.length) {
-        return res.status(400).json("Новости с таким id нет");
-      }
-      return res
-        .status(200)
-        .json({
-          "Все id пользователей которым понравилась новость": all_users_liked,
-        });
-    } finally {
-       await client.release();
+    if (!all_users_liked.length) {
+      return res.status(400).json("Новости с таким id нет");
     }
-  })().catch((err) => {
+    return res.status(200).json({
+      message: "Все id пользователей которым понравилась новость",
+      arrayId: all_users_liked,
+    });
+  } catch (err) {
     console.log(err);
     return res.status(400).json(err.detail);
-  });
+  } finally {
+    await client.release();
+  }
 }
 
 async function getNewsLikedByUser(req, res) {
-  (async () => {
-    const client = await pool.connect();
-    try {
-      const token = req.headers.authorization.split(" ")[1];
+  setTimeout(async()=>{
+  const client = await pool.connect();
+  try {
+    const token = req.headers.authorization.split(" ")[1];
 
-      const decoded = jwt.verify(token, "gipgip");
+    const decoded = jwt.verify(token, "gipgip");
 
-      const user_id = decoded.userId;
-      const news = await client.query(
-        `SELECT like_id as news_id FROM likes_to_users WHERE user_id=${user_id}`
-      );
-      const all_news_liked = news.rows;
+    const user_id = decoded.userId;
+    const news = await client.query(
+      `SELECT *, cast(n.likes_count as int) FROM likes_to_users l
+        left join (select news_id, title, author, (select count(*) from likes_to_users where like_id=n.news_id) as likes_count, v.views_count, content, date, image, category_id
+      from news n
+      left join views v on n.views_id= v.views_id
+      order by date desc) n on n.news_id=l.like_id
+        WHERE user_id=${user_id}`
+    );
+    const all_news_liked = news.rows;
 
-      if (!all_news_liked.length) {
-        return res.status(400).json("Новости с таким id нет");
-      }
-      return res
-        .status(200)
-        .json({
-          "Все id новостей которые понравились юзеру": all_news_liked,
-        });
-    } finally {
-      await client.release();
+    if (!all_news_liked.length) {
+      return res.status(400).json("Новости с таким id нет");
     }
-  })().catch((err) => {
+    return res.status(200).json({
+      message: "Все id пользователей которым понравилась новость",
+      arrayId: all_news_liked,
+    });
+  } catch (err) {
     console.log(err);
     return res.status(400).json(err.detail);
-  });
+  } finally {
+    await client.release();
+  }
+  },1000)
 }
- 
 
 module.exports = { addLike, getUsersId, getNewsLikedByUser };

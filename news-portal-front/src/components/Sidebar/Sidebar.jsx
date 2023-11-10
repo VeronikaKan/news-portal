@@ -1,230 +1,245 @@
-import React, { useState, useEffect } from 'react'
-import "./Sidebar.css"
-import { getCategories, getWeather } from '../../redux/action'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link, NavLink } from 'react-router-dom'
+import React, { useState, useEffect } from "react";
+import "./Sidebar.css";
+import { getCategories, getWeather } from "../../redux/action";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, NavLink } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import { getNewsLikedByUser } from '../../redux/action'
+import { getNewsLikedByUser } from "../../redux/action";
 // ui components import
-import { styled, useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import MuiDrawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import FavoriteOutlined from '@mui/icons-material/FavoriteOutlined';
-import ContactPhoneOutlined from '@mui/icons-material/ContactsOutlined';
-import CategoryList from '../CategoryList/CategoryList'
-import GradeIcon from '@mui/icons-material/Grade';
-import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
+import { styled, useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import MuiDrawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import CssBaseline from "@mui/material/CssBaseline";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import FavoriteOutlined from "@mui/icons-material/FavoriteOutlined";
+import ContactPhoneOutlined from "@mui/icons-material/ContactsOutlined";
+import CategoryList from "../CategoryList/CategoryList";
+import GradeIcon from "@mui/icons-material/Grade";
+import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
-  transition: theme.transitions.create('width', {
+  transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.enteringScreen,
   }),
-  overflowX: 'hidden',
+  overflowX: "hidden",
 });
 
 const closedMixin = (theme) => ({
-  transition: theme.transitions.create('width', {
+  transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  overflowX: 'hidden',
+  overflowX: "hidden",
   width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up('sm')]: {
+  [theme.breakpoints.up("sm")]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
 });
 
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'flex-end',
+const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "flex-end",
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
 
-
-
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open }) => ({
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-    boxSizing: 'border-box',
-    ...(open && {
-      ...openedMixin(theme),
-      '& .MuiDrawer-paper': openedMixin(theme),
-    }),
-    ...(!open && {
-      ...closedMixin(theme),
-      '& .MuiDrawer-paper': closedMixin(theme),
-    }),
+const Drawer = styled(MuiDrawer, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  width: drawerWidth,
+  flexShrink: 0,
+  whiteSpace: "nowrap",
+  boxSizing: "border-box",
+  ...(open && {
+    ...openedMixin(theme),
+    "& .MuiDrawer-paper": openedMixin(theme),
   }),
-);
-
-
+  ...(!open && {
+    ...closedMixin(theme),
+    "& .MuiDrawer-paper": closedMixin(theme),
+  }),
+}));
 
 const Sidebar = () => {
   // fuctions for data
-  const dispatch = useDispatch()
-  const token = localStorage.getItem('token')
-const adminToken = useSelector(state => state.admin)
-  const user = JSON.parse(localStorage.getItem("user"))
+  const dispatch = useDispatch();
+  const token = localStorage.getItem("token");
+  const adminToken = useSelector((state) => state.admin);
+  const u = useSelector((state) => state.user);
+  const user = JSON.parse(localStorage.getItem("user"));
   useEffect(() => {
     // dispatch(getWeather())
-    dispatch(getCategories())
-  }, [])
+    dispatch(getCategories());
+    dispatch({ type: "IS_ADMIN", payload: decoded?.is_admin });
+  }, []);
 
+  console.log(user, "user");
+
+  console.log(u, "user from store");
 
   // ui component funtions
-  const open = useSelector(state => state.toggleSidebar)
- const decoded = jwtDecode(token)
-dispatch({type:"IS_ADMIN",payload:decoded?.is_admin});
+  const open = useSelector((state) => state.toggleSidebar);
+  const decoded = jwtDecode(token);
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
-          <Box className='sidebar__wrapper' sx={{ opacity: open ? 1 : 0 }}>
-            <div className='sidebar__avatar'>
-              <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/User_icon-cp.svg/1200px-User_icon-cp.svg.png' />
+          <Box className="sidebar__wrapper" sx={{ opacity: open ? 1 : 0 }}>
+            <div className="sidebar__avatar">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/User_icon-cp.svg/1200px-User_icon-cp.svg.png" />
             </div>
-            <p className='sidebar__name'>{user?.oneUser.full_name}</p>
+            <p className="sidebar__name">{user?.oneUser.full_name}</p>
           </Box>
-          <IconButton onClick={() => dispatch({ type: 'TOGGLE_SIDEBAR', payload: !open })}>
+          <IconButton
+            onClick={() => dispatch({ type: "TOGGLE_SIDEBAR", payload: !open })}
+          >
             {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
         <Divider />
         <List>
-          <ListItem disablePadding sx={{ display: 'block' }}>
-            <NavLink to='/'>
+          <ListItem disablePadding sx={{ display: "block" }}>
+            <NavLink to="/">
               <ListItemButton
                 sx={{
                   minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
+                  justifyContent: open ? "initial" : "center",
                   px: 2.5,
-                }}>
+                }}
+              >
                 <ListItemIcon
                   sx={{
                     minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
                   }}
                 >
                   <InboxIcon />
                 </ListItemIcon>
 
-                <ListItemText sx={{ opacity: open ? 1 : 0 }}>Главная</ListItemText>
+                <ListItemText sx={{ opacity: open ? 1 : 0 }}>
+                  Главная
+                </ListItemText>
               </ListItemButton>
             </NavLink>
           </ListItem>
 
-          <ListItem disablePadding sx={{ display: 'block' }}>
+          <ListItem disablePadding sx={{ display: "block" }}>
             <NavLink>
               <ListItemButton
                 sx={{
                   minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
+                  justifyContent: open ? "initial" : "center",
                   px: 2.5,
-                }}>
-
+                }}
+              >
                 <ListItemIcon
                   sx={{
                     minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
                   }}
-                ><GradeIcon />
+                >
+                  <GradeIcon />
                 </ListItemIcon>
-                <ListItemText sx={{ opacity: open ? 1 : 0 }}> <CategoryList open={open} /></ListItemText>
-
+                <ListItemText sx={{ opacity: open ? 1 : 0 }}>
+                  {" "}
+                  <CategoryList open={open} />
+                </ListItemText>
               </ListItemButton>
             </NavLink>
           </ListItem>
 
-          <ListItem disablePadding sx={{ display: 'block' }}>
-            <NavLink to='/favourites'>
+          <ListItem disablePadding sx={{ display: "block" }}>
+            <NavLink to="/favourites">
               <ListItemButton
                 sx={{
                   minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
+                  justifyContent: open ? "initial" : "center",
                   px: 2.5,
-                }}>
+                }}
+              >
                 <ListItemIcon
                   sx={{
                     minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
                   }}
                 >
                   <FavoriteOutlined />
                 </ListItemIcon>
-                <ListItemText sx={{ opacity: open ? 1 : 0 }}>Избранное</ListItemText>
+                <ListItemText sx={{ opacity: open ? 1 : 0 }}>
+                  Избранное
+                </ListItemText>
               </ListItemButton>
             </NavLink>
           </ListItem>
-          <ListItem  disablePadding sx={{ display: 'block' }}>
+          <ListItem disablePadding sx={{ display: "block" }}>
             <ListItemButton
               sx={{
                 minHeight: 48,
-                justifyContent: open ? 'initial' : 'center',
+                justifyContent: open ? "initial" : "center",
                 px: 2.5,
-              }}>
+              }}
+            >
               <ListItemIcon
                 sx={{
                   minWidth: 0,
-                  mr: open ? 3 : 'auto',
-                  justifyContent: 'center',
+                  mr: open ? 3 : "auto",
+                  justifyContent: "center",
                 }}
               >
                 <ContactPhoneOutlined />
               </ListItemIcon>
-              <ListItemText sx={{ opacity: open ? 1 : 0 }}>Контакты</ListItemText>
+              <ListItemText sx={{ opacity: open ? 1 : 0 }}>
+                Контакты
+              </ListItemText>
             </ListItemButton>
           </ListItem>
-       {adminToken?
-          <ListItem disablePadding sx={{ display: 'block' }}>
-            <NavLink to='/admin'>
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? 'initial' : 'center',
-                px: 2.5,
-              }}>
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : 'auto',
-                  justifyContent: 'center',
-                }}
-              >
-                <SettingsSuggestIcon />
-              </ListItemIcon>
-              <ListItemText sx={{ opacity: open ? 1 : 0 }}>Панель управления</ListItemText>
-            </ListItemButton>
-            </NavLink>
-          </ListItem>:null}
+          {adminToken ? (
+            <ListItem disablePadding sx={{ display: "block" }}>
+              <NavLink to="/admin">
+                <ListItemButton
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <SettingsSuggestIcon />
+                  </ListItemIcon>
+                  <ListItemText sx={{ opacity: open ? 1 : 0 }}>
+                    Панель управления
+                  </ListItemText>
+                </ListItemButton>
+              </NavLink>
+            </ListItem>
+          ) : null}
           <Divider />
-          <ListItem disablePadding sx={{ display: 'block' }}>
-           
-          </ListItem>
-
+          <ListItem disablePadding sx={{ display: "block" }}></ListItem>
         </List>
       </Drawer>
     </Box>
@@ -266,8 +281,7 @@ dispatch({type:"IS_ADMIN",payload:decoded?.is_admin});
     //   </div>
 
     // </div>
+  );
+};
 
-  )
-}
-
-export default Sidebar
+export default Sidebar;
