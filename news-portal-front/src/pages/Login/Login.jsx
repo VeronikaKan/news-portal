@@ -81,7 +81,7 @@ const Login = () => {
                 <button
                   type="submit"
                   className="login__btn"
-                >{loader ? <div class="w-8 h-8 border-4 border-blue-600 rounded-full loader"></div> : 'Boйти'}</button>
+                >{loader ? <div className="w-8 h-8 border-4 border-blue-600 rounded-full loader"></div> : 'Boйти'}</button>
                 <NavLink to='/forget' onClick={() => dispatch(forgetPassword(values))} className='login__forgot'>
                   Забыли пароль?
                 </NavLink>

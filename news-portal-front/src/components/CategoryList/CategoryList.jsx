@@ -52,7 +52,7 @@ const CategoryList = () => {
                 </AccordionSummary>
                 <AccordionDetails>
                     <ul className='sidebar__list'>
-                        {categories.map((el) => (<Link to={`/${el.category_id}`}><li className='sidebar__lists' key={el.title} >{el.category_name}</li></Link>))}
+                        {categories.map((el) => (<Link to={`/${el.category_id}`} key={el.title+el.category_id}><li className='sidebar__lists' key={el.title} >{el.category_name}</li></Link>))}
                     </ul>
                 </AccordionDetails>
             </Accordion>

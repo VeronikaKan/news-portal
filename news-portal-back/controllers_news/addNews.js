@@ -8,6 +8,11 @@ async function addNews(req, res) {
   const time = req.requestTime;
   const { author, content, title, category_id } = req.body;
   const filedata = req.file;
+  if(!req.file){
+    return res
+    .status(400)
+    .json({ message: "Otsutvuyet kartinka" });
+  }
   let nameFile = "ggnews.jpg";
   if (filedata) {
     nameFile = filedata.originalname;

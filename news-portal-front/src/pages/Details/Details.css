@@ -1,5 +1,8 @@
 .details__wrapper{
     padding: 100px;
+    -webkit-backdrop-filter: blur(70px);
+    backdrop-filter: blur(70px);
+    border-radius: 10px;
 }
 .details__title{
     font-size: 30px;

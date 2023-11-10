@@ -137,42 +137,44 @@ return dispatch({type:"WEATHER",payload:data.temp})
   }
 
   export const deleteNews = (id) => {
+    const token = localStorage.getItem("token")
     return async (dispatch) => {
-        await axios.delete(`http://localhost:3030/api/news/${id}`)
-   
+       let data = await axios.delete(`http://localhost:3030/api/news/${id}`,{
+        headers:{
+            Authorization :`Bearer ${token}`,
+                        }})
+           alert(data.massege)             
     }
+    
   }
 
   export const addNews = (values) =>{
+    console.log(values);
     const token = localStorage.getItem("token")
     return async(dispatch) =>{
-        const {data} = await axios.post('http://localhost:3030/api/add-news',{
-            headers:{
-                Authorization :`Bearer ${token}`
-                            },   
-        body:{
-                title:values.title,
-                content:values.content,
-                author:values.author,
-                category_id:values.categoryID,
-                image:values.image
-            }
+        const {data} = await axios('http://localhost:3030/api/add-news',{
+        method: 'POST',
+        headers:{
+            Authorization :`Bearer ${token}`
+        },   
+        data: values
         })
-        console.log(data);
+      console.log(data);
+      alert(data.massege);
         // return dispatch({type:"ADD_NEWS",data})
     }
   }
 //  export const getNewsLikedByUser = () => {
-//     const token = JSON.parse(localStorage.getItem('token'))
-//     return async() =>{
+//     const token = localStorage.getItem('token')
+//     return async(dispatch) =>{
       
 //         const {data} = await axios ("http://localhost:3030/api/news-liked-by-user",{
 //             headers:{
-//                 Authorization :`Bearer ${token.token}`
+//                 Authorization :`Bearer ${token}`
 //                             }
 //         })
-//         console.log(data);
-//     return 
+//         console.log(1111,data);
+//     return dispatch({type:"LIKED_NEWS", payload:data})
     
 //     }
 
@@ -182,11 +184,3 @@ return dispatch({type:"WEATHER",payload:data.temp})
 
 
 
-   // useEffect(() => {
-  //   const getData = async () => {
-  //     let { data } = await axios(`https://api.openweathermap.org/data/2.5/weather?q=${city} &appid=a0c2b522ad262806f14f4175dbda2e63`)
-  //     setTemp(data)
-    
-  //   }
-  //   getData()
-  // }, [city])

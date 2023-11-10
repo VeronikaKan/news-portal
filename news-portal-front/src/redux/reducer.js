@@ -14,7 +14,8 @@ const initialState = {
     loader: false,
     toggleSidebar: false,
     admin: false,
-weather:''
+    weather: '',
+    // likedNews: []
 
 }
 const newsReducer = (state = initialState, action) => {
@@ -43,8 +44,10 @@ const newsReducer = (state = initialState, action) => {
             return { ...state, toggleSidebar: action.payload }
         case "IS_ADMIN":
             return { ...state, admin: action.payload }
-            case "WEATHER":
-                return{...state,weather:action.payload}
+        case "WEATHER":
+            return { ...state, weather: action.payload }
+        // case "LIKED_NEWS":
+            // return { ...state, likedNews: action.payload }
 
         default:
             return state

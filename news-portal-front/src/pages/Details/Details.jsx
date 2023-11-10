@@ -6,10 +6,8 @@ import "./Details.css"
 
 const Details = () => {
     const {newsId} = useParams()
-    console.log(45,useParams());
     const dispatch = useDispatch()
     const oneNews = useSelector(state => state.oneNews)
- console.log(oneNews);
     useEffect(() => {
         dispatch(getNewsById(newsId))
     },[newsId])

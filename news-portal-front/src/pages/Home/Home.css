@@ -31,10 +31,7 @@
     border-radius: 10px 20px;
     padding: 60px;
 }
-.latest__wrapper{
-    display: flex;
-    justify-content: space-between;
-}
+
 .latest__img{
     position: relative;
     width: 600px;

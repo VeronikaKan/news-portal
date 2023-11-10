@@ -19,7 +19,7 @@ const Rightbar = () => {
     <div className='rightbar'>
         <ul>
            {rightBarNews.map((item) => (
-<li className='rightbar__link'>{item.title}<p>{moment(item.date).format("LLLL")}</p></li>
+<li key = {item.date}className='rightbar__link'>{item.title}<p>{moment(item.date).format("LLLL")}</p></li>
 
            ))} 
         </ul>

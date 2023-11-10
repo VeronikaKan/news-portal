@@ -25,7 +25,7 @@ const Home = () => {
 
 // dispatch(getNewsLikedByUser())
  },[token,like])
-console.log(token);
+
 
   return (
 <>

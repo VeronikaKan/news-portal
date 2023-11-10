@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import * as Yup from 'yup'
 import { Formik, Form } from 'formik';
-import { NavLink, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { restorePassword } from '../../redux/action';
 
@@ -27,7 +27,6 @@ const Forget = () => {
 const forget = (values) =>{
     dispatch(restorePassword(values))
 navigate('/login')
-console.log("fff");
 }
   return (
     <div className='forget'>

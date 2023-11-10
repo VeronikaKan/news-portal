@@ -99,7 +99,7 @@ if(values){
                 placeholder="Пароль"
          
                 onChange={handleChange}
-                // onInput={handleInput}
+     
               />
               <input
                 type="text"

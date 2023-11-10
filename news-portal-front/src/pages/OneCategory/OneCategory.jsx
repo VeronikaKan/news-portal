@@ -17,7 +17,7 @@ const OneCategory = () => {
     dispatch(selectCategory(id))
   },[id])
 
-    console.log(news);
+  
   return (
     <div className='categories__wrapper'>
         {news.map((item) =>(

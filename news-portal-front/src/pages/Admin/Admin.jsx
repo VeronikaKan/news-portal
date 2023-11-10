@@ -1,20 +1,31 @@
-import React from 'react'
+import React, { useEffect, useState, SelectState } from 'react'
 import { Formik, Form } from 'formik';
 import "./Admin.css"
 import { useSelector, useDispatch } from 'react-redux';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { deleteNews } from '../../redux/action';
 import { addNews } from '../../redux/action';
+import { getNews } from '../../redux/action';
 const Admin = () => {
+    const [file, setFile] = useState(null)
     const categories = useSelector(state => state.categories)
+    const defaultSelect = categories[0]?.category_id
     const loader = useSelector(state => state.loader)
     const allNews = useSelector(state => state.allNews)
-    console.log(categories);
     const dispatch = useDispatch()
-    const handleClick = (id) => {
+    const handleDelete = (id) => {
         dispatch(deleteNews(id))
     }
+    useEffect(() => {
+        dispatch(getNews())
+    }, [])
     const addOneNews = (values) => (dispatch(addNews(values)))
+    const handleFile = (e) => {
+        if (e.target.files[0]) {
+            setFile(e.target.files[0]);
+        }
+    }
+  
 
     return (
         <div className='admin'>
@@ -25,11 +36,18 @@ const Admin = () => {
                         title: '',
                         content: '',
                         author: '',
-                        image: ''
+                        image: '',
+                        category_id: defaultSelect
                     }}
 
-                    onSubmit={values => {
-                        addOneNews(values)
+                    onSubmit={(values) => {
+                        const fd = new FormData();
+                        fd.append("addImage", file);
+                        fd.append("title", values.title);
+                        fd.append("content", values.content);
+                        fd.append("author", values.author);
+                        fd.append("category_id", values.category_id);
+                        addOneNews(fd)
                     }}
                 >
 
@@ -65,31 +83,36 @@ const Admin = () => {
 
                                 />
                                 {errors.author && touched.author ? <div>{errors.author}</div> : null}
-                                <select className='admin__select'>
+                                <select
+                                    className='admin__select'
+                                    onChange={handleChange}
+                                    value={values.category_id}
+                                    name='category_id'>
                                     {categories.map((el) => (
-                                        <option onClick={() => handleClick(el.category_id)}>{el.category_name}</option>
+                                        <option key={el.category_id} value={el.category_id}>{el.category_name}</option>
                                     ))}
+                    
                                 </select>
-                                <input 
+
+                                <input
                                     type="file"
                                     name="image"
+                                    // value={}
+                                    // accept='image/*'
                                     className="admin__inp"
-                                    placeholder="+"
-                                    onChange={(e)=>handleChange(console.log(e.target))}
-
+                                    onChange={handleFile}
                                 />
-                          
                                 {errors.image && touched.image ? <div>{errors.image}</div> : null}
 
                                 <button
                                     type="submit"
                                     className="admin__btn"
                                 >
-                                    {loader ? <div class="w-8 h-8 border-4 border-blue-600 rounded-full loader"></div> : 'Опубликовать'}
+                                    {loader ? <div className="w-8 h-8 border-4 border-blue-600 rounded-full loader"></div> : 'Опубликовать'}
                                 </button>
 
                             </Form>
-                                  
+
                         )
                     }
 
@@ -100,9 +123,13 @@ const Admin = () => {
             <div className='admin__news'>
                 {
                     allNews.map((el) => (
-                        < p className='admin__oneNews'>
-                            {el.title}<div onClick={() => handleClick(el.news_id)}><DeleteIcon /></div>
-                        </p>
+                        <div className='admin__oneNews'
+                        key={el.news_id}>
+                            < p className='admin__info'>
+                                {el.title}
+                            </p>
+                            <div onClick={() => handleDelete(el.news_id)}><DeleteIcon /></div>
+                        </div>
                     ))
                 }
             </div>

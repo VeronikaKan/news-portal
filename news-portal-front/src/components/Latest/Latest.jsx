@@ -20,9 +20,6 @@ const Latest = ({latestNews,miniCardNews}) => {
 <div className='latest__column2'>
 <MiniCard latestNews = {latestNews}/>
 </div>
-<div className='latest__column3'>
-df
-</div>
    </div>
     </section>
 

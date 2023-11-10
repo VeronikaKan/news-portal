@@ -4,6 +4,7 @@ import { getCategories, getWeather } from '../../redux/action'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, NavLink } from 'react-router-dom'
 import { jwtDecode } from "jwt-decode";
+import { getNewsLikedByUser } from '../../redux/action'
 // ui components import
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -83,12 +84,12 @@ const Sidebar = () => {
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
 const adminToken = useSelector(state => state.admin)
-console.log(adminToken);
   const user = JSON.parse(localStorage.getItem("user"))
   useEffect(() => {
     // dispatch(getWeather())
     dispatch(getCategories())
   }, [])
+
 
   // ui component funtions
   const open = useSelector(state => state.toggleSidebar)
@@ -178,7 +179,7 @@ dispatch({type:"IS_ADMIN",payload:decoded?.is_admin});
               </ListItemButton>
             </NavLink>
           </ListItem>
-          <ListItem disablePadding sx={{ display: 'block' }}>
+          <ListItem  disablePadding sx={{ display: 'block' }}>
             <ListItemButton
               sx={{
                 minHeight: 48,
