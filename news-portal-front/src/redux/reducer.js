@@ -14,7 +14,7 @@ const initialState = {
   loader: false,
   toggleSidebar: false,
   admin: false,
-  weather: "",
+  weather: [],
   likedNews: [],
 };
 const newsReducer = (state = initialState, action) => {

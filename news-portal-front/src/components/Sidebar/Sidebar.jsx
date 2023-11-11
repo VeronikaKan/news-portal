@@ -4,7 +4,7 @@ import { getCategories, getWeather } from "../../redux/action";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import { getNewsLikedByUser } from "../../redux/action";
+import Weather from "../Weather/Weather";
 // ui components import
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -76,14 +76,14 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 const Sidebar = () => {
-  // fuctions for data
+  const weather = useSelector(state => state.weather)
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
   const adminToken = useSelector((state) => state.admin);
   const u = useSelector((state) => state.user);
   const user = JSON.parse(localStorage.getItem("user"));
   useEffect(() => {
-    // dispatch(getWeather())
+    dispatch(getWeather())
     dispatch(getCategories());
     dispatch({ type: "IS_ADMIN", payload: decoded?.is_admin });
   }, []);
@@ -190,7 +190,9 @@ const Sidebar = () => {
               </ListItemButton>
             </NavLink>
           </ListItem>
+        
           <ListItem disablePadding sx={{ display: "block" }}>
+          <NavLink to = '/contacts'>
             <ListItemButton
               sx={{
                 minHeight: 48,
@@ -211,7 +213,9 @@ const Sidebar = () => {
                 Контакты
               </ListItemText>
             </ListItemButton>
+            </NavLink>
           </ListItem>
+     
           {adminToken ? (
             <ListItem disablePadding sx={{ display: "block" }}>
               <NavLink to="/admin">
@@ -239,7 +243,18 @@ const Sidebar = () => {
             </ListItem>
           ) : null}
           <Divider />
-          <ListItem disablePadding sx={{ display: "block" }}></ListItem>
+          <ListItem disablePadding sx={{ display: "block" }}>
+                <ListItemButton
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? 'initial' : 'center',
+                    px: 2.5,
+                  }}>
+                  <ListItemText sx={{ opacity: open ? 1 : 0 }}>
+                    <Weather weather={weather}/>
+                  </ListItemText>
+                </ListItemButton>
+          </ListItem>
         </List>
       </Drawer>
     </Box>

@@ -1,9 +1,8 @@
 .admin__wrapper {
-
     padding: 20px 20px;
     margin: 0 auto;
     width: 500px;
-    background: black;
+
   }
   .admin__title {
 
@@ -15,13 +14,27 @@
     color:white;
   }
   .admin__form {
-    padding: 0 30px;
+    padding: 0 10px;
     display: flex;
     flex-direction: column;
+
   }
+  .admin__wrapp {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .admin__select {
+    padding: .8em;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+  }
+
   .admin__inp {
     padding: .8em;
     margin-bottom: 2rem;
+    border-radius: 5px;
   }
   .admin__btn {
     border: 1px solid white;
@@ -33,6 +46,10 @@
     cursor: pointer;
     background:  white;
   }
+  .admin__btn:hover{
+    color: white;
+    background-color: black;
+  }
   .admin{
     padding: 120px;
     display: flex;
@@ -43,14 +60,33 @@
     border-radius: 10px;
   }
   .admin__news{
+    border-top:2px solid#cccccc78 ;
     margin-top: 20px;
    
   }
   .admin__oneNews{
+    width: 100%;
     border-top: 2px solid #cccccc78;
     padding: 10px;
     margin: 10px 0;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: .3fr 1fr 2fr 1fr 1fr;
+
   
+  }
+  .admin__headers {
+    display: grid;
+    grid-template-columns: .3fr 1fr 2fr 1fr 1fr;
+  }
+
+  
+  .admin__info {
+    justify-self: center;
+  }
+  
+  .admin__info-id {
+    justify-self: start;
+  }
+  .admin__action {
+    justify-self: end;
   }

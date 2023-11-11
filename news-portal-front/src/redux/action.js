@@ -154,7 +154,7 @@ export const getWeather = () => {
     const { data } = await axios(
       "https://api.openweathermap.org/data/2.5/weather?q=Bishkek&appid=c15601da476242f8e33e17e82e4421e2"
     );
-    return dispatch({ type: "WEATHER", payload: data.temp });
+    return dispatch({ type: "WEATHER", payload: data});
   };
 };
 
@@ -166,7 +166,7 @@ export const deleteNews = (id) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    alert(data.message);
+    dispatch(getNews());
   };
 };
 
@@ -181,6 +181,7 @@ export const addNews = (values) => {
       },
       data: values,
     });
+    dispatch(getNews());
     console.log(data);
     alert(data.massege);
   };

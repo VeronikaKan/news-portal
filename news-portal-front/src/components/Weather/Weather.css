@@ -1,0 +1,14 @@
+.weather {
+    display: flex;
+    justify-content: space-between;
+}
+.weather__city {
+    font-size: 32px;
+    font-weight: 900;
+    color: #5b5b5b;
+}
+.weather__temp {
+    font-size: 32px;
+    font-weight: 900;
+    color: #5b5b5b;
+}
